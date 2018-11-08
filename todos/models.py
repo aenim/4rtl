@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.utils.translation import ugettext as _
-
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import UserManager
 
 class Company(models.Model):
     name = models.CharField(verbose_name="company name", unique=True, max_length=64)
@@ -29,10 +29,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     company = models.ManyToManyField(Company)
 
-#    objects = UserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email','company']
+    REQUIRED_FIELDS = ['company']
 
     class Meta:
         verbose_name = _('user')
